@@ -14,14 +14,18 @@ var X1;
 var X2;
 var drawRect=false;
 var targetImage;
+var Button;
+var sources=["source1.jpg","source2.jpg","source3.jpg","source4.jpg","source5.jpg"];
+var currentSourceIndex=0;
 function preload(){
-    sourceImage=loadImage("./source3.jpg");
+    sourceImage=loadImage(sources[currentSourceIndex]);
     targetImage=loadImage("./target1.jpg");
-
 }
 function setup(){
-    createCanvas(sourceImage.width,sourceImage.height);
+    createCanvas(700,500);
     video=createCapture(VIDEO);
+    video.size(width,height);
+    sourceImage.resize(width,height);
     tempSourceImage=createImage(width,height);
     // rSlider=createSlider(0,255,120);
     // rSlider.position(20,20);
@@ -33,7 +37,10 @@ function setup(){
     Y2=height;
     X1=0;
     X2=width;
-    createP("USE MOUSE TO ADJUST THE SIZE OF THE WEB CAM VIDEO(Click at the required region)")
+    createP("USE MOUSE TO ADJUST THE SIZE OF THE WEB CAM VIDEO(Click at the required region)");
+    Button=createButton("Change Source");
+    Button.mouseClicked(changeSource)
+
 }
 function keyPressed(){
     if(keyCode==32){
@@ -43,7 +50,20 @@ function keyPressed(){
         // bValue=bSlider.value();
     }
 }
+function changeSource(){
+    currentSourceIndex=(currentSourceIndex+1)%sources.length;
+    sourceImage=loadImage(sources[currentSourceIndex],imageLoaded);
+}
+function imageLoaded(){
+    sourceImage.resize(width,height);
+    Y1=0;
+    Y2=height;
+    X1=0;
+    X2=width;
+    drawRect=false;
+}
 function draw(){
+    background(255);
     tempSourceImage.copy(sourceImage,0,0,width,height,0,0,width,height);
     currentFrame=video.get();
     // currentFrame=createImage(targetImage.width,targetImage.height);
