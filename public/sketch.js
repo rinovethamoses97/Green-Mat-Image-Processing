@@ -13,8 +13,11 @@ var Y2;
 var X1;
 var X2;
 var drawRect=false;
+var targetImage;
 function preload(){
-    sourceImage=loadImage("./source3.jpg");
+    sourceImage=loadImage("./source2.jpg");
+    targetImage=loadImage("./target1.jpg");
+
 }
 function setup(){
     createCanvas(sourceImage.width,sourceImage.height);
@@ -42,6 +45,8 @@ function keyPressed(){
 function draw(){
     tempSourceImage.copy(sourceImage,0,0,width,height,0,0,width,height);
     currentFrame=video.get();
+    // currentFrame=createImage(targetImage.width,targetImage.height);
+    // currentFrame.copy(targetImage,0,0,targetImage.width,targetImage.height,0,0,targetImage.width,targetImage.height);
     currentFrame.resize(X2-X1,Y2-Y1);
     tempSourceImage.loadPixels();
     currentFrame.loadPixels();
