@@ -59,7 +59,9 @@ function draw(){
     }
     tempSourceImage.updatePixels();
     image(tempSourceImage,0,0,width,height);
-    if(drawRect){    
+    if(drawRect){   
+        X2=mouseX;
+        Y2=mouseY; 
         stroke(255,0,0);
         strokeWeight(2);
         noFill();
@@ -70,6 +72,7 @@ function mousePressed(){
     if(!drawRect){
         X1=mouseX;
         Y1=mouseY;
+
     }
     else{
         X2=mouseX;
