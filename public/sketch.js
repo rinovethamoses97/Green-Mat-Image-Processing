@@ -15,7 +15,7 @@ var X2;
 var drawRect=false;
 var targetImage;
 function preload(){
-    sourceImage=loadImage("./source2.jpg");
+    sourceImage=loadImage("./source3.jpg");
     targetImage=loadImage("./target1.jpg");
 
 }
