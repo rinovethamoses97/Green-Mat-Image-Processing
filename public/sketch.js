@@ -33,6 +33,7 @@ function setup(){
     Y2=height;
     X1=0;
     X2=width;
+    createP("USE MOUSE TO ADJUST THE SIZE OF THE WEB CAM VIDEO(Click at the required region)")
 }
 function keyPressed(){
     if(keyCode==32){
