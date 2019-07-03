@@ -14,12 +14,17 @@ var X1;
 var X2;
 var drawRect=false;
 var targetImage;
-var Button;
+var SButton;
+var TButton;
+var CamButton;
 var sources=["source1.jpg","source2.jpg","source3.jpg","source4.jpg","source5.jpg"];
+var targets=["target1.jpg","target2.jpg"];
 var currentSourceIndex=0;
+var currentTargetIndex=0;
+var cam=true;
 function preload(){
     sourceImage=loadImage(sources[currentSourceIndex]);
-    targetImage=loadImage("./target1.jpg");
+    targetImage=loadImage(targets[currentTargetIndex]);
 }
 function setup(){
     createCanvas(700,500);
@@ -38,9 +43,15 @@ function setup(){
     X1=0;
     X2=width;
     createP("USE MOUSE TO ADJUST THE SIZE OF THE WEB CAM VIDEO(Click at the required region)");
-    Button=createButton("Change Source");
-    Button.mouseClicked(changeSource)
-
+    SButton=createButton("Change Source");
+    SButton.mouseClicked(changeSource);
+    TButton=createButton("Change Target");
+    TButton.mouseClicked(changeTarget);
+    CamButton=createButton("Web Cam");
+    CamButton.mouseClicked(activateCam);
+}
+function activateCam(){
+    cam=true;
 }
 function keyPressed(){
     if(keyCode==32){
@@ -50,11 +61,16 @@ function keyPressed(){
         // bValue=bSlider.value();
     }
 }
+function changeTarget(){
+    cam=false;
+    currentTargetIndex=(currentTargetIndex+1)%targets.length;
+    targetImage=loadImage(targets[currentTargetIndex]);
+}
 function changeSource(){
     currentSourceIndex=(currentSourceIndex+1)%sources.length;
-    sourceImage=loadImage(sources[currentSourceIndex],imageLoaded);
+    sourceImage=loadImage(sources[currentSourceIndex],sourceImageLoaded);
 }
-function imageLoaded(){
+function sourceImageLoaded(){
     sourceImage.resize(width,height);
     Y1=0;
     Y2=height;
@@ -65,9 +81,12 @@ function imageLoaded(){
 function draw(){
     background(255);
     tempSourceImage.copy(sourceImage,0,0,width,height,0,0,width,height);
-    currentFrame=video.get();
-    // currentFrame=createImage(targetImage.width,targetImage.height);
-    // currentFrame.copy(targetImage,0,0,targetImage.width,targetImage.height,0,0,targetImage.width,targetImage.height);
+    if(cam)
+        currentFrame=video.get();
+    else{
+        currentFrame=createImage(targetImage.width,targetImage.height);
+        currentFrame.copy(targetImage,0,0,targetImage.width,targetImage.height,0,0,targetImage.width,targetImage.height);
+    }
     currentFrame.resize(X2-X1,Y2-Y1);
     tempSourceImage.loadPixels();
     currentFrame.loadPixels();
